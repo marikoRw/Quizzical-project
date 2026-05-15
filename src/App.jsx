@@ -1,13 +1,22 @@
-// import { useState } from 'react'
+import { useState } from 'react'
+import StartPage from './components/StartPage.jsx'
+import Quiz from './components/Quiz.jsx'
 
 import './App.css'
 
 function App() {
-  // const [count, setCount] = useState(0)
+
+  const [isStarted, setIsStarted] = useState(false)
+
+  function startQuiz() {
+    setIsStarted(true)
+  }
 
   return (
     <>
-      <h1>Mark!</h1>
+      {
+        isStarted ? <Quiz /> : <StartPage startQuiz={startQuiz} />
+      }
     </>
   )
 }
