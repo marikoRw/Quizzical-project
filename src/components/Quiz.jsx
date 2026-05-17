@@ -3,6 +3,14 @@ import { decode } from 'html-entities'
 
 export default function Quiz() {
   const [questions, setQuestions] = useState([])
+  const [chosen, setChosen] = useState([])
+  // use the chosen to store the clicked answers
+  // use the correct questions from the API fetch to create an array
+  // compare the two arrays and count the correct answers, then display the score at the end of the quiz
+  // use the API array to see if the chosen answer is included in API array
+  //if chosen answer is included in API array, then add a class to the button to show it as correct, otherwise add a class to show it as wrong
+  // if the user clicks on an answer, disable the other buttons for that question
+  // add a "check answers" button at the end of the quiz that will show the correct answers and the user's score, and a "play again" button that will reset the quiz
 
   useEffect(() => {
     fetch('https://opentdb.com/api.php?amount=5&difficulty=easy')
@@ -35,18 +43,22 @@ export default function Quiz() {
       .catch(err => {
         console.error("Caught a network issue gracefully:", err.message)
       })
-    }, [])
+  }, [])
     // console.log(questions)
+
+  function isChosen(answer) {
+    setChosen(prev => [...prev, answer])
+  }
 
   return (
     <div className="quiz-div">
       {questions.map((q, index) => {
         return (
-          <div key={index}>
+          <div className="question" key={index}>
             <p>{q.question}</p>
             <div className="answer-buttons">
               {q.answers.map((answer, i) => (
-                <button key={i}>{answer}</button>
+                <button key={i} onClick={() => isChosen(answer)}>{answer}</button>
               ))}
             </div>
           </div>
