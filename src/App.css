@@ -37,3 +37,58 @@ h1 {
 /*    QUIZ PAGE STYLING */
 /* ========================== */
 
+.quiz-div {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+    color: #293264;
+    width: 80%;
+    height: 100vh;
+    margin: auto;
+}
+
+.question {
+    padding-bottom: 20px;
+    border-bottom: solid 1px #dbdef0c3;
+}
+
+.question > p {
+    font-weight: 700;
+    font-style: bold;
+    font-size: 20px;
+}
+
+.answer-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+button {
+    padding: 3px 10px;
+    border-radius: 8px;
+    border: 1.5px solid #4D5B9E;
+    color: #293264;
+    background-color: #F5F7FB;
+    font-weight: 500;
+    font-family: inter;
+    font-size: 13px;
+}
+
+.isSelected {
+    background-color: #D6DBF5;
+    border: none;
+}
+
+.isCorrect {
+    background-color: #94D7A2;
+    border: none;
+    color: #293264;
+}
+
+.isWrong {
+    background-color: #F8BCBC;
+    border: none;
+    color: #293264;
+}
