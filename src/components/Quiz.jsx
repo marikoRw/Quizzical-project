@@ -4,6 +4,8 @@ import { decode } from 'html-entities'
 export default function Quiz() {
   const [questions, setQuestions] = useState([])
   const [chosen, setChosen] = useState([])
+
+  // LOGIC 1
   // use the chosen to store the clicked answers
   // use the correct questions from the API fetch to create an array
   // compare the two arrays and count the correct answers, then display the score at the end of the quiz
@@ -11,6 +13,14 @@ export default function Quiz() {
   //if chosen answer is included in API array, then add a class to the button to show it as correct, otherwise add a class to show it as wrong
   // if the user clicks on an answer, disable the other buttons for that question
   // add a "check answers" button at the end of the quiz that will show the correct answers and the user's score, and a "play again" button that will reset the quiz
+
+  // LOGIC 2
+  // use the questions state to make the questions track  their own state
+  // use a click handler on the buttons to update state by passing it the question ID and the clicked answer
+  // toggle the isSelected state of the clicked answer to true and disable the other buttons to false
+  // use another state linked to "check answers" button to map over the questions using .filter()
+  // if isGameover is true then check answers and show results and give a reset button
+  // if not keep playing
 
   useEffect(() => {
     fetch('https://opentdb.com/api.php?amount=5&difficulty=easy')
