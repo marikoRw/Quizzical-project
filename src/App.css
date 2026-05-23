@@ -36,6 +36,13 @@ h1 {
 /* ========================== */
 /*    QUIZ PAGE STYLING */
 /* ========================== */
+.whole-quiz-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 0px;
+}
 
 .quiz-div {
     display: flex;
@@ -44,8 +51,15 @@ h1 {
     justify-content: center;
     color: #293264;
     width: 80%;
-    height: 100vh;
     margin: auto;
+}
+
+.check-play-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
 }
 
 .question {
@@ -76,6 +90,13 @@ button {
     font-size: 13px;
 }
 
+.check-answers-btn, .play-again-btn{
+    background-color: #4D5B9E;
+    color: #F5F7FB;
+    height: 35px;
+    width: 130px;
+}
+
 .isSelected {
     background-color: #D6DBF5;
     border: none;
@@ -91,4 +112,8 @@ button {
     background-color: #F8BCBC;
     border: none;
     color: #293264;
+}
+
+.isNeutral {
+    opacity: 0.5;
 }

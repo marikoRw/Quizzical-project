@@ -4,6 +4,7 @@ import { structuredMockQuestions } from "../mockdata"
 
 export default function Quiz() {
   const [questions, setQuestions] = useState(structuredMockQuestions)
+  const [isGameOver, setIsGameOver] = useState(false)
   
   // useEffect(() => {
   //   fetch('https://opentdb.com/api.php?amount=5&difficulty=easy')
@@ -62,25 +63,77 @@ export default function Quiz() {
     })
   }
 
+  function gameEnd() {
+    setIsGameOver(true)
+  }
+
+  function gameReset() {
+    setIsGameOver(false)
+    setQuestions(structuredMockQuestions)
+  }
+
+  
   return (
-    <div className="quiz-div">
-      {questions.map((q, index) => {
-        return (
-          <div className="question" key={index}>
-            <p>{q.question}</p>
-            <div className="answer-buttons">
-              {q.answers.map((answer, i) => (
-                <button
-                  key={i}
-                  className={answer.isSelected ? "isSelected" : ""}
-                  onClick={() => isChosen(q.questionId, answer.text)}>
-                    {answer.text}
-                </button>
-              ))}
+    <div className="whole-quiz-div">
+      {/* quiz question and answer buttons */}
+      <div className="quiz-div">
+        {questions.map((q, index) => {
+          return (
+            <div className="question" key={index}>
+              <p>{q.question}</p>
+              <div className="answer-buttons">
+                {q.answers.map((answer, i) => {
+                  
+                  let classChoice
+                  if (!isGameOver) {
+                    classChoice = answer.isSelected ? "isSelected" : ""
+                  }
+                  else {
+                    if (answer.text === q.correct_answer) {
+                      classChoice = "isCorrect"
+                    }
+                    else if (answer.isSelected && answer.text !== q.correct_answer) {
+                      classChoice = "isWrong"
+                    }
+                    else {
+                      classChoice = "isNeutral"
+                    }
+                  }
+                  return (
+                    <button
+                      key={i}
+                      disabled={isGameOver}
+                      className={classChoice}
+                      onClick={() => isChosen(q.questionId, answer.text)}>
+                        {answer.text}
+                    </button>
+                  )
+                })}
+              </div>
             </div>
-          </div>
-        )
-      })}
+          )
+        })}
+      </div>
+
+      {/* check answers and play again buttons */}
+      <div className="check-play-div">
+        {isGameOver ? (
+          <>
+            <p
+              className="score">You scored 
+              {
+                questions.filter(q => q.answers.some(ans => ans.isSelected && ans.text === q.correct_answer)).length
+              } /
+              {
+                questions.length
+              } correct answers
+            </p>
+            <button className="play-again-btn" onClick={() => gameReset()}>Play Again</button>
+          </>
+        ) : (
+          <button className="check-answers-btn" onClick={() => gameEnd()}>Check Answers</button>
+        )}
+      </div>
     </div>
   )
 }
