@@ -40,13 +40,28 @@ export default function Quiz() {
   //         console.error("Caught a network issue gracefully:", err.message)
   //     })
   // }, [])
-  console.log(questions)
 
   function isChosen(questionId, answerText) {
-    console.log("Chosen answer:", answerText, "for question ID:", questionId)
-
+    setQuestions(prevQuestions => {
+      return prevQuestions.map(q => {
+        if (q.questionId === questionId) {
+          return {
+            ...q,
+            answers: q.answers.map(ans => {
+              if (ans.text === answerText) {
+                return { ...ans, isSelected: !ans.isSelected }
+              }
+              else {
+                return { ...ans, isSelected: false}
+              }
+            })
+          }
+        }
+        return q
+      })
+    })
   }
-  
+
   return (
     <div className="quiz-div">
       {questions.map((q, index) => {
@@ -55,7 +70,12 @@ export default function Quiz() {
             <p>{q.question}</p>
             <div className="answer-buttons">
               {q.answers.map((answer, i) => (
-                <button key={i} onClick={() => isChosen(q.questionId, answer.text)}>{answer.text}</button>
+                <button
+                  key={i}
+                  className={answer.isSelected ? "isSelected" : ""}
+                  onClick={() => isChosen(q.questionId, answer.text)}>
+                    {answer.text}
+                </button>
               ))}
             </div>
           </div>
@@ -67,8 +87,7 @@ export default function Quiz() {
 
 
 
-
-// LOGIC 1
+// LOGIC 1❌
 // use the chosen to store the clicked answers
 // use the correct questions from the API fetch to create an array
 // compare the two arrays and count the correct answers, then display the score at the end of the quiz
@@ -78,7 +97,7 @@ export default function Quiz() {
 // add a "check answers" button at the end of the quiz that will show the correct answers and the user's score, and a "play again" button that will reset the quiz
 
 
-// LOGIC 2
+// LOGIC 2✅
 // use the questions state to make the questions track  their own state
 // use a click handler on the buttons to update state by passing it the question ID and the clicked answer
 // toggle the isSelected state of the clicked answer to true and disable the other buttons to false
