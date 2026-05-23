@@ -1,47 +1,47 @@
-import { useState } from "react"
-// import { decode } from 'html-entities'
-import { structuredMockQuestions } from "../mockdata"
+import { useState, useEffect } from "react"
+import { decode } from 'html-entities'
 import confetti from "canvas-confetti"
 
 export default function Quiz() {
-  const [questions, setQuestions] = useState(structuredMockQuestions)
+  const [questions, setQuestions] = useState([])
   const [isGameOver, setIsGameOver] = useState(false)
+  const [syncCount, setSyncCount] = useState(0)
   
-  // useEffect(() => {
-  //   fetch('https://opentdb.com/api.php?amount=5&difficulty=easy')
-  //   .then(res => {
-  //       if (!res.ok) {
-  //         throw new Error(`HTTP error! status: ${res.status}`)
-  //         }
-  //         return res.json()
-  //       })
-  //       .then(data => 
-  //       {
-  //         if (data.response_code === 0 && data.results) {
-  //           const quizData = data.results.map(q => {
-  //             const randomIndex = Math.floor(Math.random() * (q.incorrect_answers.length + 1))
-  //             const answersArray = [...q.incorrect_answers]
-  //             answersArray.splice(randomIndex, 0, q.correct_answer)
-  //             return {
-  //               questionId: crypto.randomUUID(),
-  //               question: decode(q.question),
-  //               correct_answer: decode(q.correct_answer),
-  //               answers: answersArray.map(ans => {
-  //                   return {text: decode(ans), isSelected: false}
-  //                 })
-  //             }
-  //           })
-  //           setQuestions(quizData)
-  //         }
+  useEffect(() => {
+    fetch('https://opentdb.com/api.php?amount=5&difficulty=easy')
+    .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`)
+          }
+          return res.json()
+        })
+        .then(data => 
+        {
+          if (data.response_code === 0 && data.results) {
+            const quizData = data.results.map(q => {
+              const randomIndex = Math.floor(Math.random() * (q.incorrect_answers.length + 1))
+              const answersArray = [...q.incorrect_answers]
+              answersArray.splice(randomIndex, 0, q.correct_answer)
+              return {
+                questionId: crypto.randomUUID(),
+                question: decode(q.question),
+                correct_answer: decode(q.correct_answer),
+                answers: answersArray.map(ans => {
+                    return {text: decode(ans), isSelected: false}
+                  })
+              }
+            })
+            setQuestions(quizData)
+          }
 
-  //         else {
-  //           console.error("API returned an error code:", data.response_code)
-  //         }
-  //       })
-  //       .catch(err => {
-  //         console.error("Caught a network issue gracefully:", err.message)
-  //     })
-  // }, [])
+          else {
+            console.error("API returned an error code:", data.response_code)
+          }
+        })
+        .catch(err => {
+          console.error("Caught a network issue gracefully:", err.message)
+      })
+  }, [syncCount])
 
   function isChosen(questionId, answerText) {
     setQuestions(prevQuestions => {
@@ -80,7 +80,7 @@ export default function Quiz() {
 
   function gameReset() {
     setIsGameOver(false)
-    setQuestions(structuredMockQuestions)
+    setSyncCount(prev => prev + 1)
   }
 
   
