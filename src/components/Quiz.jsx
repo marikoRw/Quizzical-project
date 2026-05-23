@@ -1,6 +1,7 @@
 import { useState } from "react"
 // import { decode } from 'html-entities'
 import { structuredMockQuestions } from "../mockdata"
+import confetti from "canvas-confetti"
 
 export default function Quiz() {
   const [questions, setQuestions] = useState(structuredMockQuestions)
@@ -65,6 +66,16 @@ export default function Quiz() {
 
   function gameEnd() {
     setIsGameOver(true)
+    const finalScore = questions.filter(q => 
+    q.answers.some(ans => ans.isSelected && ans.text === q.correct_answer)).length
+
+    if (finalScore === 5) {
+      confetti({
+        particleCount: 150,
+        spread: 80,
+        origin: { y: 0.6 }
+      })
+    }
   }
 
   function gameReset() {
@@ -120,7 +131,8 @@ export default function Quiz() {
         {isGameOver ? (
           <>
             <p
-              className="score">You scored 
+              className="score">
+              You scored 
               {
                 questions.filter(q => q.answers.some(ans => ans.isSelected && ans.text === q.correct_answer)).length
               } /

@@ -2,6 +2,9 @@ body {
     margin: 0;
     font-family: 'Karla', sans-serif;
     background-color: #F5F7FB;
+    background-image: 
+    radial-gradient(circle at top right, #FFFAD1 0%, #FFFAD1 20%, transparent 20%),
+    radial-gradient(circle at bottom left, #deebf8 0%, #deebf8 12%, transparent 12%);
 }
 
 /* ========================== */
